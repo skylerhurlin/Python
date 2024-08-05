@@ -23,13 +23,13 @@ cursor = connect.cursor()
 
 productID = 114
 productName = "Tazo Tea: Earl Grey"
-category: "Grocery"
-subcategory: "Tea and Coffee"
+category = "Grocery"
+subcategory = "Tea and Coffee"
 price = 5.50
-discount: 4.50
-discounted: False
-oosAmount: 10
-currentStock: 25
+discount = 4.50
+discounted = False
+oosAmount = 10
+currentStock = 25
 supplierID = 10
 
 sqlInsert = """
