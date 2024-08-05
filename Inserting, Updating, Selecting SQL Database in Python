@@ -34,7 +34,7 @@ supplierID = 10
 
 sqlInsert = """
     INSERT INTO products (productID, productName, category, subcategory, price, discount, discounted, oosAmount, currentStock, supplierID)
-     VALUES (?, ?, ?, ?)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 """
 
 # This executes the query and commits the new information to the database.
