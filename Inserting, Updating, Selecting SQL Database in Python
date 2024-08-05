@@ -30,22 +30,24 @@ discount: 4.50
 discounted: False
 oosAmount: 10
 currentStock: 25
+supplierID = 10
 
-sqlInsert = \
-    "INSERT INTO products (productID, productName, category, subcategory, price, discount, discounted, oosAmount, currentStock)  \
-     VALUES (?, ?, ?, ?)"
+sqlInsert = """
+    INSERT INTO products (productID, productName, category, subcategory, price, discount, discounted, oosAmount, currentStock, supplierID)
+     VALUES (?, ?, ?, ?)
+"""
 
 # This executes the query and commits the new information to the database.
 
 try:
-    cursor.execute(sqlInsert, productID, productName, category, subcategory, price, discount, discounted, oosAmount, currentStock))
+    cursor.execute(sqlInsert, productID, productName, category, subcategory, price, discount, discounted, oosAmount, currentStock, supplierID))
     connect.commit()
     print("Product information added successfully.")
 
 # Add an error message just in case.
 
-except pyodbc.Error as e:
-    print("Error adding person information. Please review and try again.")
+except Exception as e:
+    print(f"Error adding person information: {e}. Please review and try again.")
     quit()
 
 # Moving on to updating information in a different table.
@@ -54,11 +56,12 @@ contactNumber = "555-555-5555"
 contactName = "David Mays"
 supplierID = 10
 
-sqlUpdate = \
-    "UPDATE suppliers \
-     SET contactNumber = ?, \
-     contactName = ? \
-     WHERE supplierID = ?"
+sqlUpdate = """
+    UPDATE suppliers
+     SET contactNumber = ?, 
+     contactName = ?
+     WHERE supplierID = ?
+"""
 
 # Executing the query and committing the new info.
 
@@ -68,13 +71,37 @@ try:
     connect.commit()
     print("Supplier information updated successfully.")
 
-except pyodbc.Error as e:
+except Exception as e:
 
-    print("Error updating supplier information. Please review and try again.")
+    print(f"Error updating supplier information: {e}. Please review and try again.")
     quit()
 
-#Lastly, close the connection.
+# Lastly, I want to select some information.
+
+sqlSelect = """
+    SELECT productName, category, subcategory
+    FROM products
+    WHERE supplierID = 10
+    ORDER BY category, productName
+"""
+
+try:
+
+cursor.execute(sqlSelect)
+results = cursor.fetchall()
+
+for row in results:
+        productName, category, subcategory = row
+        print("{}, {}, {}".format(productName, category, subcategory))
+
+except Exception as e:
+
+    print(f"Error retrieving information: {e}. Please review and try again.")
+    quit()
+
+#When I'm done, I close the connection.
 
 finally:
 
+    cursor.close()
     connect.close()
