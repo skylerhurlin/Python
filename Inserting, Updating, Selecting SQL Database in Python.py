@@ -12,7 +12,7 @@ try:
                              password='testpassword')
 
 except pyodbc.Error as e:
- print("Database connection unsuccessful. Please review and try again.")
+    print(f"Database connection unsuccessful: {e}. Please review and try again.")
     quit()
 
 # Make a cursor to execute the query, starting with inserting data.
@@ -40,7 +40,7 @@ sqlInsert = """
 # This executes the query and commits the new information to the database.
 
 try:
-    cursor.execute(sqlInsert, productID, productName, category, subcategory, price, discount, discounted, oosAmount, currentStock, supplierID))
+    cursor.execute(sqlInsert, productID, productName, category, subcategory, price, discount, discounted, oosAmount, currentStock, supplierID)
     connect.commit()
     print("Product information added successfully.")
 
@@ -59,7 +59,7 @@ supplierID = 10
 sqlUpdate = """
     UPDATE suppliers
      SET contactNumber = ?, 
-     contactName = ?
+         contactName = ?
      WHERE supplierID = ?
 """
 
@@ -67,7 +67,7 @@ sqlUpdate = """
 
 try:
 
-    cursor.execute(sqlUpdate, (contactNumber, contactName, supplierID))
+    cursor.execute(sqlUpdate, contactNumber, contactName, supplierID)
     connect.commit()
     print("Supplier information updated successfully.")
 
@@ -87,10 +87,9 @@ sqlSelect = """
 
 try:
 
-cursor.execute(sqlSelect)
-results = cursor.fetchall()
-
-for row in results:
+    cursor.execute(sqlSelect)
+    results = cursor.fetchall()
+    for row in results:
         productName, category, subcategory = row
         print("{}, {}, {}".format(productName, category, subcategory))
 
@@ -99,7 +98,7 @@ except Exception as e:
     print(f"Error retrieving information: {e}. Please review and try again.")
     quit()
 
-#When I'm done, I close the connection.
+# When I'm done, I close the connection.
 
 finally:
 
