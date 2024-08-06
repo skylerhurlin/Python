@@ -1,4 +1,4 @@
-# This is a segment of a homework assignment for my course Machine Learning for Business.
+# This is a segment of a homework assignment for my course Machine Learning for Business in my Master's program.
 
 import numpy as np
 import pandas as pd
