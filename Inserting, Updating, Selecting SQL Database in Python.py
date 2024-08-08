@@ -8,8 +8,8 @@ connect = None
 
 try:
     connect = pyodbc.connect(Driver='SQL Server', host='localhost',
-                             database='StoreTestDB', user='skyef',
-                             password='testpassword')
+                             database='TestDB', user='skyef',
+                             password='[censored password]'
 
 except pyodbc.Error as e:
     print(f"Database connection unsuccessful: {e}. Please review and try again.")
@@ -21,19 +21,18 @@ cursor = connect.cursor()
 
 # Inserting the new data.
 
-productID = 114
 productName = "Tazo Tea: Earl Grey"
-category = "Grocery"
+category = "Beverages"
 subcategory = "Tea and Coffee"
 price = 5.50
 discount = 4.50
-discounted = False
+discounted = 0
 oosAmount = 10
 currentStock = 25
 supplierID = 10
 
 sqlInsert = """
-    INSERT INTO products (productID, productName, category, subcategory, price, discount, discounted, oosAmount, currentStock, supplierID)
+    INSERT INTO products (productName, category, subcategory, price, discount, discounted, oosAmount, currentStock, supplierID)
      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 """
 
