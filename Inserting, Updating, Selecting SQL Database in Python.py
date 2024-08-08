@@ -7,8 +7,8 @@ import pyodbc
 connect = None
 
 try:
-    connect = pyodbc.connect(Driver='SQL Server', host='localhost',
-                             database='TestDB', user='skyef',
+    connect = pyodbc.connect(Driver='SQL Server', server='[local computer server]',
+                             database='TestDB', user='[censored username]',
                              password='[censored password]'
 
 except pyodbc.Error as e:
@@ -88,9 +88,11 @@ try:
 
     cursor.execute(sqlSelect)
     results = cursor.fetchall()
-    for row in results:
-        productName, category, subcategory = row
-        print("{}, {}, {}".format(productName, category, subcategory))
+    
+    df = pd.read_sql_query(sqlSelect, conn)
+
+print(df)
+print(type(df))
 
 except Exception as e:
 
