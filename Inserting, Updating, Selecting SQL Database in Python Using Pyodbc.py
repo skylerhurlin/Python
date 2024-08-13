@@ -50,7 +50,7 @@ try:
 # Add an error message just in case.
 
 except Exception as e:
-    print(f"Error adding person information: {e}. Please review and try again.")
+    print(f"Error adding product information: {e}. Please review and try again.")
     quit()
 
 # Moving on to updating information in a different table.
