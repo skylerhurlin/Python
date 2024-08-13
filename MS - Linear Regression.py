@@ -43,6 +43,8 @@ print(d1M_no['Weight'].corr(d1M_no['Chest']).round(2))
 y = d1M_no['Chest']
 X = d1M_no['Weight']
 
+# A constant is added for the intercept.
+
 import statsmodels.api as sm
 from statsmodels.regression.linear_model import RegressionResults
 X = sm.add_constant(X)
@@ -51,3 +53,12 @@ X.head()
 model = sm.OLS(y, X)
 results = model.fit()
 print(results.summary())
+
+# The regression resulted in a Weight coefficient of .0905 and a constant coefficient/intercept of 25.5242.
+
+# R^2 is used due to the size of the dataset. R^2 is .756. Using Weight values to predict Chest values is somewhat reliable, but could be better predicted by a different/more variables.
+
+ax = sns.regplot(x="Weight", y="Chest", data=d1M_no)
+plt.show()
+
+# STDEV of the squared residuals is 2.12. This implies that the data values are mostly clustered around the regression line, which can be seen with the scatterplot.
