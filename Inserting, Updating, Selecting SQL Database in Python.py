@@ -1,15 +1,18 @@
-# This is a code I wrote to test inserting and updating random data in a SSMS database stored locally. 
-
 import pyodbc
+import pandas as pd
 
 # Start with connecting to the database.
 
 connect = None
+cursor = None
 
 try:
-    connect = pyodbc.connect(Driver='SQL Server', server='[local computer server]',
-                             database='TestDB', user='[censored username]',
-                             password='[censored password]'
+    connect = pyodbc.connect(Driver='ODBC Driver 17 for SQL Server',
+                             server='computername\\SQLEXPRESS',
+                             database='TestDB',
+                             Trusted_Connection='yes'
+                             )
+    print("Database connection successful.")
 
 except pyodbc.Error as e:
     print(f"Database connection unsuccessful: {e}. Please review and try again.")
@@ -33,13 +36,14 @@ supplierID = 10
 
 sqlInsert = """
     INSERT INTO products (productName, category, subcategory, price, discount, discounted, oosAmount, currentStock, supplierID)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
 """
 
 # This executes the query and commits the new information to the database.
 
 try:
-    cursor.execute(sqlInsert, productID, productName, category, subcategory, price, discount, discounted, oosAmount, currentStock, supplierID)
+    cursor.execute(sqlInsert, productName, category, subcategory, price, discount, discounted, oosAmount,
+                   currentStock, supplierID)
     connect.commit()
     print("Product information added successfully.")
 
@@ -85,14 +89,13 @@ sqlSelect = """
 """
 
 try:
-
     cursor.execute(sqlSelect)
     results = cursor.fetchall()
-    
-    df = pd.read_sql_query(sqlSelect, conn)
 
-print(df)
-print(type(df))
+    df = pd.read_sql_query(sqlSelect, connect)
+
+    print(df)
+    print(type(df))
 
 except Exception as e:
 
@@ -102,6 +105,7 @@ except Exception as e:
 # When I'm done, I close the connection.
 
 finally:
-
-    cursor.close()
-    connect.close()
+    if cursor:
+        cursor.close()
+    if connect:
+        connect.close()
