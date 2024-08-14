@@ -85,7 +85,7 @@ kf = KFold(n_splits=5, shuffle=True, random_state=1)
 
 scores = cross_validate(reg_model, X, y, cv=kf,
 scoring=('r2', 'neg_mean_squared_error'),
-return_train_score=True
+return_train_score=True)
 
 ds = pd.DataFrame(scores)
 ds.rename(columns = {'test_neg_mean_squared_error': 'test_MSE',
