@@ -102,6 +102,20 @@ except Exception as e:
     print(f"Error retrieving information: {e}. Please review and try again.")
     quit()
 
+# Lastly, I will delete the previously inserted data.
+
+try:
+    productName = "Tazo Tea: Earl Grey"
+
+    sqlDelete = """
+            DELETE FROM products
+            WHERE productName = ?
+        """
+
+    cursor.execute(sqlDelete, productName)
+    connect.commit()
+    print(f"Product deleted successfully.")
+
 # When I'm done, I close the connection.
 
 finally:
